@@ -1,0 +1,14 @@
+# backup and useless files
+*~
+*.swp
+old/
+
+# compiled files
+*.o
+*.obj
+*.exe
+ute
+
+# test files
+data/
+test/
