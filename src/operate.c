@@ -56,7 +56,7 @@ int delline(char *line, char *str) {
 	//char *p;
 	long i, j;
 	slen = strlen(str);
-	len = strlen(line);
+	len = strlen(line) + 1;
 	while (((i = (strstr(line, str) - line)) >= 0) && (i <= len)) {
 		for (j = i; j < len - slen; ++j) {
 			line[j] = line[j + slen];

@@ -7,7 +7,7 @@ old/
 *.o
 *.obj
 *.exe
-ute
+utp
 
 # test files
 data/
