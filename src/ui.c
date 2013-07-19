@@ -98,14 +98,14 @@ int interactive(void) {
 }
 void phelp(int argc, char **argv) {
 	printf("Ugly Text Editor\n");
-	printf("If you want to use the interactive user interface, start the program with NO \nparameters\n");
+	printf("If you want to use the interactive mode, start the program with NO parameters\n");
 	printf("Usage:\n");
-	printf("%s [-option] [-s string] [-d string]\n", argv[0]);
+	printf("%s [-option] [-s <string>] [-d <string>]\n", argv[0]);
 	printf("-s, --search <parameter>\t\tshow how many times a string appears\n");
 	printf("-d, --delete <parameter>\t\tdelete a certain string\n");
-	printf("-h, --help\t\tshow this help page and exit\n");
+	printf("-h, --help\t\tshow this page and exit\n");
 	printf("-v, --version\t\tshow imformation of the program and exit\n");
-	printf("\t--interactive\t\tstart the interactive user interface\n\t\t\tsame as using no parameters\n");
+	printf("\t--interactive\t\trun in interactive mode\n\t\t\t\tsame as using no parameters\n");
 	printf("\n");
 }
 int parametric(int argc, char **argv) {

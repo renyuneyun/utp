@@ -53,7 +53,6 @@ int count_string(char **pv, int pc, char *s) {
 }
 int delline(char *line, char *str) {
 	int len, slen, n = 0;
-	//char *p;
 	long i, j;
 	slen = strlen(str);
 	len = strlen(line) + 1;

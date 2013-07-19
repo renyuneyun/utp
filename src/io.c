@@ -62,7 +62,7 @@ int readline(char line[]) {
 	if (num == 0)
 		return 0;
 	line[num] = '\0';
-	return num - 1;
+	return num;
 }
 int readpage(char ***page0, int lnum0) {
 	char **page = *page0;
@@ -111,13 +111,13 @@ void print(int num[4], char **page, int lnum) {
 		printf("%s\n", page[i]);
 	}
 }
-extern void print_count(int num[4]) {
+void print_count(int num[4]) {
 	printf("English characters: %d\n", num[1]);
-	printf("Blank: %d\n", num[2]);
+	printf("Blanks: %d\n", num[2]);
 	printf("Arabic numerals: %d\n", num[3]);
 	printf("All characters: %d\n", num[0]);
 }
-extern void print_page(char **page, int lnum) {
+void print_page(char **page, int lnum) {
 	int i;
 	if (page == NULL)
 		return;
@@ -136,9 +136,11 @@ void blank_page(void) {
 }
 void clean(char **page, int lnum) {
 	int i;
-	for (i = 0; i < lnum; ++i) {
-		free(page[i]);
+	if (page) {
+		for (i = 0; i < lnum; ++i) {
+			free(page[i]);
+		}
+		free(page);
 	}
-	free(page);
 }
 #endif
