@@ -1,7 +1,7 @@
 #ifndef OPERATE_H
 #define OPERATE_H
-extern int basic_count(char **pv, int pc, int *num);
-extern int count_string(char **pv, int pc, char *s);
-extern int delline(char *line, char *str);
-extern int del(char **page, int lnum, char *str);
+int basic_count(char **pv, int pc, int *num);
+int count_string(char **pv, int pc, char *s);
+int delline(char *line, char *str);
+int del(char **page, int lnum, char *str);
 #endif
