@@ -2,6 +2,7 @@
 #define IO_H
 int readcommand(void);
 int dealcommand(char *command);
+int readnum();
 int readline(char line[]);
 int readpage(char ***page0, int lnum0);
 void print(int num[4], char **page, int lnum);

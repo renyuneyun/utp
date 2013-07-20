@@ -47,11 +47,11 @@ int count_string(char **pv, int pc, char *s) {
 	int i;
 	for (i = 0; i < pc; ++i) {
 		strcpy(ss, pv[i]);
-		n += delline(ss, s);
+		n += delinline(ss, s);
 	}
 	return n;
 }
-int delline(char *line, char *str) {
+int delinline(char *line, char *str) {
 	int len, slen, n = 0;
 	long i, j;
 	slen = strlen(str);
@@ -68,8 +68,27 @@ int delline(char *line, char *str) {
 int del(char **page, int lnum, char *str) {
 	int i, n = 0;
 	for (i = 0; i < lnum; ++i) {
-		n += delline(page[i], str);
+		n += delinline(page[i], str);
 	}
 	return n;
+}
+int removeline(char ***page0, int *lnum0, int linenum) {
+	char **page = *page0;
+	int lnum = *lnum0;
+	int i;
+	if (!*page0) {
+		return -1;
+	}
+	for (i = linenum; i < lnum; ++i) {
+		page[i - 1] = page[i];
+	}
+	--lnum;
+	page = (char **) realloc(page, sizeof(char *) * lnum);
+	if (!page) {
+		return 0;
+	}
+	*lnum0 = lnum;
+	*page0 = page;
+	return 1;
 }
 #endif

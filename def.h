@@ -12,5 +12,9 @@
 #define COM_NEW 10
 #define COM_APPEND 11
 #define COM_DELETE 23
+#define COM_REMOVE 25
 #define BLANK "  "
+#define BOOL signed char
+#define FALSE 0
+#define TRUE 1
 #endif

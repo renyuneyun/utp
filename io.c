@@ -51,7 +51,16 @@ int dealcommand(char *command) {
 		return COM_APPEND;
 	if (!strcmp(command, "search"))
 		return COM_SEARCH;
+	if (!strcmp(command, "remove"))
+		return COM_REMOVE;
 	return COM_ERROR;
+}
+int readnum() {
+	int num;
+	scanf("%d", &num);
+	while (getchar() != '\n')
+		;
+	return num;
 }
 int readline(char line[]) {
 	int num = 0;

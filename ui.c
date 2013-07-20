@@ -25,13 +25,14 @@ void ihelp(void) {
 	printf(BLANK"count\t\t\tprint the number of English characters, blank, \n\t\t\tArabic numerals, and all characters\n");
 	printf(BLANK"search\t\t\tshow how many times a string appears\n");
 	printf(BLANK"delete\t\t\tdelete one certain string in the page\n");
+	printf(BLANK"remove\t\t\tremove one line\n");
 	printf(BLANK"help\t\t\tshow this page\n");
 	printf(BLANK"version\t\t\tshow the version information\n");
 	printf(BLANK"quit\t\t\tquit the program\n");
 }
 int interactive(void) {
 	char **page = NULL, line[81];
-	int icommand, lnum = 0, length, itimes;
+	int icommand, lnum = 0, length, itimes, linenum;
 	int cnum[4];
 	show_welcome();
 	while ((printf("(ute)")) && (icommand = readcommand())) {
@@ -91,6 +92,18 @@ int interactive(void) {
 				printf("type what you want to add below: (use \"Ctrl + D\" to finish typing)\n");
 				lnum = readpage(&page, lnum);
 				break;
+			case COM_REMOVE :
+				if (page) {
+					printf("type the number of the line you want to remove: (the first line is line 1)\n");
+					linenum = readnum();
+					if ((linenum > 0) && (linenum <= lnum))
+						removeline(&page, &lnum, linenum);
+					else
+						printf("no such line\n");
+				} else {
+					blank_page();
+				}
+				break;
 		}
 	}
 	clean(page, lnum);
@@ -101,8 +114,10 @@ void phelp(int argc, char **argv) {
 	printf("If you want to use the interactive mode, start the program with NO parameters\n");
 	printf("Usage:\n");
 	printf("%s [-option] [-s <string>] [-d <string>]\n", argv[0]);
-	printf("-s, --search <parameter>\t\tshow how many times a string appears\n");
+	printf("-c, --count\t\t\tprint the appearance time of English characters, blanks, Arabic numberals and all characters after all process\n");
+	//printf("-s, --search <parameter>\t\tshow how many times a string appears\n");
 	printf("-d, --delete <parameter>\t\tdelete a certain string\n");
+	printf("-r, --remove <parameter>\t\tremove a line\n\t\t\t\tignore invalid lines\n");
 	printf("-h, --help\t\tshow this page and exit\n");
 	printf("-v, --version\t\tshow imformation of the program and exit\n");
 	printf("\t--interactive\t\trun in interactive mode\n\t\t\t\tsame as using no parameters\n");
@@ -110,22 +125,21 @@ void phelp(int argc, char **argv) {
 }
 int parametric(int argc, char **argv) {
 	char **page = NULL, line[81];
-	int iarg = 1, lnum = 0, length;
+	int iarg = 1, lnum = 0, length, linenum;
 	int cnum[4];
+	BOOL flag = FALSE;
 	if ((!strcmp(argv[1], "-h")) || (!strcmp(argv[1], "--help"))) {
 		phelp(argc, argv);
 		return 1;
 	} else if ((!strcmp(argv[1], "-v")) || (!strcmp(argv[1], "--version"))) {
 		show_version();
 		return 1;
-	} else if (!(argc & 1)) {
+	} else if ((argc & 1)) {
 		deal_error();
 		return 1;
 	}
 	lnum = readpage(&page, lnum);
 	basic_count(page, lnum, cnum);
-	print_count(cnum);
-	print_page(page, lnum);
 	--argc;
 	while (iarg < argc) {
 		if (!strcmp(argv[iarg], "-d")) {
@@ -134,11 +148,24 @@ int parametric(int argc, char **argv) {
 			print_count(cnum);
 			print_page(page, lnum);
 		} else {
-			if (!strcmp(argv[iarg], "-s")) {
+			if (!strcmp(argv[iarg], "-c")) {
+				flag = TRUE;
+			} else {
+			/*if (!strcmp(argv[iarg], "-s")) {
 				printf("The string \"%s\" appears %d times\n", argv[iarg + 1], count_string(page, lnum, argv[iarg + 1]));
+			} else {*/
+				if (!strcmp(argv[iarg], "-r")) {
+					linenum = atoi(argv[iarg + 1]);
+					removeline(&page, &lnum, linenum);
+				}
 			}
 		}
 		iarg += 2;
+	}
+	if (flag) {
+		print_count(cnum);
+	} else {
+		print_page(page, lnum);
 	}
 	clean(page, lnum);
 	return 1;
