@@ -13,7 +13,7 @@ void show_welcome(void) {
 }
 void show_version(void) {
 	printf("an Ugly Text Processor\n");
-	printf("Verson: 0.11\n");
+	printf("Verson: 0.20\n");
 	printf("\nReport bugs or give advice to renyuneyun@gmail.com\n");
 	printf("Have a good day:P\n");
 }
