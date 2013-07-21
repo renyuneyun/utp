@@ -2,6 +2,7 @@
 *~
 *.swp
 old/
+backup/
 
 # compiled files
 *.o

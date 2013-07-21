@@ -1,18 +1,9 @@
 /* operate.c */
 #ifndef OPERATE
 #define OPERATE
-#ifndef STDIO_H
-#define STDIO_H
 #include <stdio.h>
-#endif
-#ifndef STDLIB_H
-#define STDLIB_H
 #include <stdlib.h>
-#endif
-#ifndef STRING_H
-#define STRING_H
 #include <string.h>
-#endif
 #include "operate.h"
 int basic_count(char **pv, int pc, int *num) {
 	int ec_u, ec_d, bc, nc, ac;
@@ -76,7 +67,7 @@ int removeline(char ***page0, int *lnum0, int linenum) {
 	char **page = *page0;
 	int lnum = *lnum0;
 	int i;
-	if (!*page0) {
+	if (!page) {
 		return -1;
 	}
 	for (i = linenum; i < lnum; ++i) {
@@ -84,11 +75,11 @@ int removeline(char ***page0, int *lnum0, int linenum) {
 	}
 	--lnum;
 	page = (char **) realloc(page, sizeof(char *) * lnum);
+	*lnum0 = lnum;
+	*page0 = page;
 	if (!page) {
 		return 0;
 	}
-	*lnum0 = lnum;
-	*page0 = page;
 	return 1;
 }
 #endif

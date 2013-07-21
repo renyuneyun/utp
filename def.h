@@ -1,5 +1,7 @@
 #ifndef DEF_H
 #define DEF_H
+#define PROGNAME "utp"
+#define EXITTIMES 2
 #define MAXCOMMANDLENGTH 8
 #define COM_QUIT 0
 #define COM_ERROR -1

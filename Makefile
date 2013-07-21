@@ -1,14 +1,15 @@
 objects = main.o io.o operate.o ui.o
+CCOMPILER = gcc
 utp : $(objects)
-	gcc -o utp $(objects)
+	$(CCOMPILER) -o utp $(objects)
 main.o : main.c ui.h
-	gcc -c main.c
+	$(CCOMPILER) -c main.c
 io.o : io.c io.h def.h
-	gcc -c io.c
+	$(CCOMPILER) -c io.c
 operate.o : operate.c operate.h
-	gcc -c operate.c
+	$(CCOMPILER) -c operate.c
 ui.o : ui.c ui.h dec.h def.h
-	gcc -c ui.c
+	$(CCOMPILER) -c ui.c
 .PJONY : clean
 clean :
 	-rm utp $(objects)

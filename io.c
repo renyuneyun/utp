@@ -1,21 +1,12 @@
 /* io.c */
 #ifndef IO
 #define IO
-#ifndef STDIO_H
-#define STDIO_H
 #include <stdio.h>
-#endif
-#ifndef STDLIB_H
-#define STDLIB_H
 #include <stdlib.h>
-#endif
-#ifndef STRING_H
-#define STRING_H
 #include <string.h>
-#endif
 #include "io.h"
 #include "def.h"
-int readcommand(void) {
+int readcommand() {
 	char command[MAXCOMMANDLENGTH];
 	signed char ch;
 	int len = -1;
@@ -66,10 +57,15 @@ int readline(char line[]) {
 	int num = 0;
 	signed char ch;
 	while (((ch = getchar()) > EOF) && (ch != '\n')) {
+		if (ch == '\r')
+			continue;
 		line[num++] = (unsigned char) ch;
 	}
-	if (num == 0)
+	if (num == 0) {
+		if (ch == EOF)
+			return -1;
 		return 0;
+	}
 	line[num] = '\0';
 	return num;
 }
@@ -78,8 +74,10 @@ int readpage(char ***page0, int lnum0) {
 	int length = 0, lnum = lnum0;
 	char line[81];
 	int len = 0;
-	if (!page) {
+	int exitcontrol = 0;
+	while (!page) {
 		if ((len = readline(line)) > 0) {
+			exitcontrol = 0;
 			++lnum;
 			length = len;
 			page = (char **) malloc(sizeof(char *));
@@ -92,18 +90,40 @@ int readpage(char ***page0, int lnum0) {
 			}
 			strcpy(page[lnum - 1], line);
 		}
+		if (len == -1) {
+			*page0 = page;
+			return lnum;
+		}
+		if (len == 0) {
+			++exitcontrol;
+			if (exitcontrol == EXITTIMES) {
+				*page0 = page;
+				return lnum;
+			}
+			continue;
+		}
 	}
-	while ((len = readline(line)) > 0) {
+	while ((len = readline(line)) > -1) {
+		if (len == 0) {
+			++exitcontrol;
+			if (exitcontrol == EXITTIMES) {
+				*page0 = page;
+				return lnum;
+			}
+			continue;
+		}
+		exitcontrol = 0;
 		++lnum;
 		length += len;
 		page = (char **) realloc(page, sizeof(char *) * lnum);
 		if (!page) {
 			mem_error();
-			return;
+			return 0;
 		}
 		page[lnum - 1] = (char *) malloc(sizeof(char) * (len + 1));
 		if (!page[lnum - 1]) {
 			mem_error();
+			return 0;
 		}
 		strcpy(page[lnum - 1], line);
 	}
@@ -134,16 +154,12 @@ void print_page(char **page, int lnum) {
 		printf("%s\n", page[i]);
 	}
 }
-void mem_error(void) {
+void mem_error() {
 	printf("Sorry, no enough memory space.\n");
 }
-void deal_error(void) {
-	printf("ERROR\n");
-}
-void blank_page(void) {
-	printf("You haven't written down a page yet.\n");
-}
-void clean(char **page, int lnum) {
+void clean(char ***page0, int *lnum0) {
+	char **page= *page0;
+	int lnum = *lnum0;
 	int i;
 	if (page) {
 		for (i = 0; i < lnum; ++i) {
@@ -151,5 +167,7 @@ void clean(char **page, int lnum) {
 		}
 		free(page);
 	}
+	*page0 = NULL;
+	*lnum0 = 0;
 }
 #endif
