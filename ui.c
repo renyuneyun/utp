@@ -1,14 +1,11 @@
 /* ui.c */
 #ifndef UI
 #define UI
-#include <stdio.h>
 #include "ui.h"
-#include "dec.h"
-#include "def.h"
 
 void show_version() {
 	printf("an Ugly Text Processor\n");
-	printf("Verson: 0.30\n");
+	printf("Verson: 1.00\n");
 	printf("\nReport bugs or give advice to renyuneyun@gmail.com\n");
 	printf("Have a good day:P\n");
 }
@@ -161,14 +158,10 @@ int parametric(int argc, char **argv) {
 		basic_count(page, lnum, cnum);
 		print_count(cnum);
 	} else {
-		printf("%d\n", lnum);
 		print_page(page, lnum);
 	}
 	clean(&page, &lnum);
 	return 1;
-}
-void deal_error() {
-	printf("ERROR\n");
 }
 void blank_page() {
 	printf("You haven't written down a page yet!\n");

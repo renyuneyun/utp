@@ -1,11 +1,7 @@
 /* io.c */
 #ifndef IO
 #define IO
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "io.h"
-#include "def.h"
 int readcommand() {
 	char command[MAXCOMMANDLENGTH];
 	signed char ch;
@@ -129,16 +125,6 @@ int readpage(char ***page0, int lnum0) {
 	}
 	*page0 = page;
 	return lnum;
-}
-void print(int num[4], char **page, int lnum) {
-	int i;
-	for (i = 1; i < 4; ++i) {
-		printf("%d ", num[i]);
-	}
-	printf("%d\n", num[0]);
-	for (i = 0; i < lnum; ++i) {
-		printf("%s\n", page[i]);
-	}
 }
 void print_count(int num[4]) {
 	printf("English characters: %d\n", num[1]);

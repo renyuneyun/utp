@@ -1,9 +1,6 @@
 /* operate.c */
 #ifndef OPERATE
 #define OPERATE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "operate.h"
 int basic_count(char **pv, int pc, int *num) {
 	int ec_u, ec_d, bc, nc, ac;
